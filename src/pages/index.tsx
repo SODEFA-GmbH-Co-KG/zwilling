@@ -1,10 +1,12 @@
 import { tw } from '@/lib/zwilling'
-import { FunctionComponent } from 'react'
 
-const SuperButton: FunctionComponent<{
+const SuperButton = ({
+  className,
+  isSuper,
+}: {
   className?: string
   isSuper: boolean
-}> = ({ className, isSuper }: { className?: string; isSuper: boolean }) => {
+}) => {
   return (
     <button className={className}>{isSuper ? 'Super' : 'Not so super'}</button>
   )
