@@ -149,17 +149,3 @@ export const tw: Tw = new Proxy(() => ``, {
     }
   },
 }) as any
-
-// File A
-// const SmallTextStyles = `text-sm text-gray-500`
-// const SmallTextStyles = `text-lg text-gray-500`
-// const SmallTextStyles = `text-sm text-gray-500`
-// const SmallTextStyles = `text-sm text-gray-500`
-// const SmallTextStyles = `text-sm text-gray-500`
-// const SmallTextStyles = `text-sm text-gray-500`
-// const SmallTextStyles = `text-sm text-gray-500`
-
-// File B
-// const Comp = () => {
-//   return <div className={SmallTextStyles}></div>
-// }
