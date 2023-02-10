@@ -54,7 +54,10 @@ export default function Page() {
           <PurpleBox2 href="#" className="mb-20">
             Purple2
           </PurpleBox2>
-          <PurpleBox3 href="#" className="bg-purple-800 text-white mb-20">
+          <PurpleBox3
+            href="#"
+            className={{ 'bg-purple-800 text-white mb-20': true }}
+          >
             Purple2
           </PurpleBox3>
         </div>

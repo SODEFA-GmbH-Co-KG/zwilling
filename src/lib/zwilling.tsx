@@ -7,7 +7,9 @@ type BaseCompString = keyof JSX.IntrinsicElements
 // type DivProps = JSX.IntrinsicElements['div']
 
 type GenericComp<T extends BaseCompString, PropsType> = FunctionComponent<
-  JSX.IntrinsicElements[T] & PropsType
+  Omit<JSX.IntrinsicElements[T] & PropsType, 'className'> & {
+    className?: ClsxInput
+  }
 >
 
 type TemplatePropsFunc<T extends BaseCompString, PropsType> = (
