@@ -7,9 +7,13 @@ type GenericComp<T extends BaseCompString> = FunctionComponent<
   JSX.IntrinsicElements[T]
 >
 
-type TemplateFunc<T extends BaseCompString> = (
+type TemplatePropsFunc<T extends BaseCompString, PropsType extends {}> = (
+  props: PropsType
+) => string
+
+type TemplateFunc<T extends BaseCompString, PropsType extends {}> = (
   strings: TemplateStringsArray,
-  ...expressions: string[]
+  ...expressions: (string | TemplatePropsFunc<T, PropsType>)[]
 ) => GenericComp<T>
 
 // tw`text-black`
@@ -19,7 +23,7 @@ type EzFunc = (
 ) => string
 
 type Tw = {
-  [T in BaseCompString]: TemplateFunc<T>
+  [T in BaseCompString]: TemplateFunc<T, any>
   // Also make it a function:
 } & EzFunc
 
@@ -29,26 +33,36 @@ export const tw: Tw = new Proxy(() => ``, {
     const templateFunc = (strings: string[], ...expressions: unknown[]) => {
       if (typeof prop === 'symbol') throw new Error('Symbol is not supported')
 
-      // Build Class String from template string
-      let classString = ''
-      for (let index = 0; index < strings.length; index++) {
-        const string = strings[index]
-        classString += string
-        const expression = expressions[index]
-        if (expression) {
-          if (typeof expression === 'string') {
-            classString += ` ${expression}`
-          } else {
-            throw new Error(
-              `Expression with type ${typeof expression} is not supported`
-            )
-          }
-        }
-      }
-
       const BaseComp = prop as 'div'
 
       const Component = ({ className, children, ...props }: any) => {
+        // TODO: useMemo?
+        // Build Class String from template string
+        let classString = ''
+        for (let index = 0; index < strings.length; index++) {
+          const string = strings[index]
+          classString += string
+          const expression = expressions[index]
+          if (expression) {
+            if (typeof expression === 'string') {
+              classString += ` ${expression}`
+            } else if (typeof expression === 'function') {
+              const expressionResult = expression(props)
+              if (typeof expressionResult === 'string') {
+                classString += ` ${expressionResult}`
+              } else {
+                throw new Error(
+                  `Expression with type ${typeof expressionResult} is not supported`
+                )
+              }
+            } else {
+              throw new Error(
+                `Expression with type ${typeof expression} is not supported`
+              )
+            }
+          }
+        }
+
         return (
           <BaseComp className={[classString, className].join(' ')}>
             {children}

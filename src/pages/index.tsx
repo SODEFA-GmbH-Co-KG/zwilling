@@ -2,7 +2,8 @@ import { tw } from '@/lib/zwilling'
 
 const squareClasses = tw`h-64 w-64 flex items-center justify-center text-2xl`
 
-const BlueBox = tw.a`${squareClasses} bg-blue-500 ${'text-white'}`
+const BlueBox = tw.a`${squareClasses} bg-blue-500 ${'text-white'} ${(p) =>
+  p.href ? `ring` : 'scale-50'}`
 
 const redBoxClasses = tw`${squareClasses} bg-red-200 ${'text-white'}`
 
