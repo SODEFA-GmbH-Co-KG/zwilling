@@ -11,8 +11,8 @@ const SuperButton = ({
     <button className={className}>{isSuper ? 'Super' : 'Not so super'}</button>
   )
 }
-
-// const StyledSuperButton = tw(SuperButton)`bg-blue-500`
+const twTmp = tw as any
+const StyledSuperButton = twTmp(SuperButton)`bg-blue-500`
 
 const squareClasses = tw`h-64 w-64 flex items-center justify-center text-2xl`
 
@@ -37,6 +37,7 @@ export default function Page() {
             Blue
           </BlueBox>
           <SuperButton className={tw`bg-red-500`} isSuper={true} />
+          <StyledSuperButton isSuper={true} />
         </div>
       </div>
     </>

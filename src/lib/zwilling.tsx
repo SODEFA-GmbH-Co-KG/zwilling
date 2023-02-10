@@ -96,9 +96,46 @@ export const tw: Tw = new Proxy(() => ``, {
       }
       return classString
     } else {
-      // tw(SuperButton)`text-black` -->
-      throw new Error('Not supported')
-      // return () => styled(firstArg)``
+      // tw(SuperButton)`text-black`
+      const Comp = firstArg as FunctionComponent<{ className: string }>
+
+      const templateFunc = (strings: string[], ...expressions: unknown[]) => {
+        const StyledComp = ({ className, ...props }: { className: string }) => {
+          // TODO: useMemo?
+          // Build Class String from template string
+          let classString = ''
+          for (let index = 0; index < strings.length; index++) {
+            const string = strings[index]
+            classString += string
+            const expression = expressions[index]
+            if (expression) {
+              if (typeof expression === 'string') {
+                classString += ` ${expression}`
+              } else if (typeof expression === 'function') {
+                const expressionResult = expression(props)
+                if (typeof expressionResult === 'string') {
+                  classString += ` ${expressionResult}`
+                } else {
+                  throw new Error(
+                    `Expression with type ${typeof expressionResult} is not supported`
+                  )
+                }
+              } else {
+                throw new Error(
+                  `Expression with type ${typeof expression} is not supported`
+                )
+              }
+            }
+          }
+
+          return (
+            <Comp className={[classString, className].join(' ')} {...props} />
+          )
+        }
+        return StyledComp
+      }
+
+      return templateFunc
     }
   },
 }) as any
