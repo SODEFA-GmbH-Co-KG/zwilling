@@ -8,7 +8,7 @@ type GenericComp<T extends BaseCompString> = FunctionComponent<
 >
 
 type TemplatePropsFunc<T extends BaseCompString, PropsType extends {}> = (
-  props: PropsType
+  props: PropsType & JSX.IntrinsicElements[T]
 ) => string
 
 type TemplateFunc<T extends BaseCompString, PropsType extends {}> = (
@@ -23,7 +23,7 @@ type EzFunc = (
 ) => string
 
 type Tw = {
-  [T in BaseCompString]: TemplateFunc<T, any>
+  [T in BaseCompString]: TemplateFunc<T, {}>
   // Also make it a function:
 } & EzFunc
 
