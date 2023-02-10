@@ -44,22 +44,18 @@ type Tw = {
 } & EzFunc &
   CompStyleFunc
 
-const buildClassString = ({
-  templateStringArray,
-  templateExpressions,
-  props,
-}: {
-  templateStringArray: string[] | ((props: any) => ClsxInput)
-  templateExpressions: unknown[]
-  props?: any
-}) => {
-  if (typeof templateStringArray === 'function') {
-    return clsx(templateStringArray(props))
+const buildClassString = ({ args, props }: { args: any[]; props?: any }) => {
+  const [firstArg, ...otherArgs] = args
+
+  if (typeof firstArg === 'function') {
+    return clsx(firstArg(props))
   }
 
   // tw.a(['bg-purple-500', { 'rotate-45': true }])
-  if (!templateExpressions.length) return clsx(templateStringArray)
+  if (!otherArgs.length) return clsx(firstArg)
 
+  const templateStringArray: string[] = firstArg
+  const templateExpressions: unknown[] = otherArgs
   let classString = ''
   for (let index = 0; index < templateStringArray.length; index++) {
     const string = templateStringArray[index]
@@ -77,10 +73,7 @@ const buildClassString = ({
 export const tw: Tw = new Proxy(() => ``, {
   // tw.div`text-black`
   get(target, prop, receiver) {
-    const templateFunc = (
-      templateStringArray: string[],
-      ...templateExpressions: unknown[]
-    ) => {
+    const templateFunc = (...args: any[]) => {
       if (typeof prop === 'symbol') throw new Error('Symbol is not supported')
 
       const BaseComp = prop as BaseCompString
@@ -88,8 +81,7 @@ export const tw: Tw = new Proxy(() => ``, {
       const Component = ({ className, children, ...props }: any) => {
         // TODO: useMemo?
         const classString = buildClassString({
-          templateStringArray,
-          templateExpressions,
+          args,
           props,
         })
 
@@ -111,10 +103,8 @@ export const tw: Tw = new Proxy(() => ``, {
     const isArray = Array.isArray(firstArg)
     if (isArray) {
       // tw`text-black`
-      const [templateStringArray, ...templateExpressions] = args
       const classString = buildClassString({
-        templateStringArray,
-        templateExpressions,
+        args,
       })
       return classString
     } else {
@@ -124,10 +114,7 @@ export const tw: Tw = new Proxy(() => ``, {
         children?: ReactNode
       }>
 
-      const templateFunc = (
-        templateStringArray: string[],
-        ...templateExpressions: unknown[]
-      ) => {
+      const templateFunc = (...args: unknown[]) => {
         const StyledComp = ({
           className,
           children,
@@ -139,8 +126,7 @@ export const tw: Tw = new Proxy(() => ``, {
           // TODO: useMemo?
           // Build Class String from template string
           const classString = buildClassString({
-            templateStringArray,
-            templateExpressions,
+            args,
             props,
           })
 
