@@ -1,18 +1,16 @@
 import { tw } from '@/lib/zwilling'
+import { FunctionComponent } from 'react'
 
-const SuperButton = ({
-  className,
-  isSuper,
-}: {
-  className: string
+const SuperButton: FunctionComponent<{
+  className?: string
   isSuper: boolean
-}) => {
+}> = ({ className, isSuper }: { className?: string; isSuper: boolean }) => {
   return (
     <button className={className}>{isSuper ? 'Super' : 'Not so super'}</button>
   )
 }
-const twTmp = tw as any
-const StyledSuperButton = twTmp(SuperButton)`bg-blue-500`
+const StyledSuperButton = tw(SuperButton)`bg-blue-500 ${(p) =>
+  p.isSuper ? 'text-white' : 'text-black'}`
 
 const squareClasses = tw`h-64 w-64 flex items-center justify-center text-2xl`
 
@@ -37,7 +35,7 @@ export default function Page() {
             Blue
           </BlueBox>
           <SuperButton className={tw`bg-red-500`} isSuper={true} />
-          <StyledSuperButton isSuper={true} />
+          <StyledSuperButton isSuper={false} />
         </div>
       </div>
     </>

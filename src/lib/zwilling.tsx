@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, ReactNode } from 'react'
 
 type BaseCompString = keyof JSX.IntrinsicElements
 // type DivProps = JSX.IntrinsicElements['div']
@@ -11,18 +11,28 @@ type TemplatePropsFunc<T extends BaseCompString, PropsType> = (
   props: PropsType & JSX.IntrinsicElements[T]
 ) => string
 
+type TemplatePropsFuncEz<PropsType> = (props: PropsType) => string
+
 // tw`text-black`
 type EzFunc = (
   strings: TemplateStringsArray,
   ...expressions: string[]
 ) => string
 
+type CompStyleFunc = <PropsType>(
+  comp: (props: PropsType) => ReactNode
+) => (
+  strings: TemplateStringsArray,
+  ...expressions: (string | TemplatePropsFuncEz<PropsType>)[]
+) => FunctionComponent<PropsType>
+
 type Tw = {
   [T in BaseCompString]: <PropsType = {}>(
     strings: TemplateStringsArray,
     ...expressions: (string | TemplatePropsFunc<T, PropsType>)[]
   ) => GenericComp<T, PropsType>
-} & EzFunc
+} & EzFunc &
+  CompStyleFunc
 
 export const tw: Tw = new Proxy(() => ``, {
   // tw.div`text-black`
