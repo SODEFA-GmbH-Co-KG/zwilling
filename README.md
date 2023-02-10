@@ -2,6 +2,9 @@
 
 Replacement for [twin.macro](https://github.com/ben-rogerson/twin.macro)'s `tw` function.
 
+- Source-Code: [zwilling.tsx](/src/lib/zwilling.tsx)
+- Example-Page: [pages/index.tsx](/src/pages/index.tsx)
+
 Internally uses [clsx](https://www.npmjs.com/package/clsx) for better DX (can be removed)
 
 ## Examples
