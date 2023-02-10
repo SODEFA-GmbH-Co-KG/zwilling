@@ -7,6 +7,11 @@ Replacement for [twin.macro](https://github.com/ben-rogerson/twin.macro)'s `tw` 
 
 Internally uses [clsx](https://www.npmjs.com/package/clsx) for better DX (can be removed)
 
+## Why?
+
+- No need for Styled Components or Emotion
+- No need for a babel plugin
+
 ## Examples
 
 ```tsx
@@ -59,8 +64,3 @@ const StyledLink = tw.a<{ $active: boolean }>(
 const NotSoStyledLink = tw.a()
 return <NotSoStyledLink className={{ 'bg-purple-500': true }} />
 ```
-
-## Why?
-
-- No need for Styled Components or Emotion
-- No need for a babel plugin
