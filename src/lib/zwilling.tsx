@@ -70,35 +70,35 @@ const buildClassString = ({ args, props }: { args: any[]; props?: any }) => {
   return classString
 }
 
+const buildTemplateFunc = ({ BaseComp }: { BaseComp: any }) => {
+  const templateFunc = (...args: any[]) => {
+    const Component = ({ className, children, ...props }: any) => {
+      // TODO: useMemo?
+      const classString = buildClassString({
+        args,
+        props,
+      })
+
+      return (
+        <BaseComp className={clsx(classString, className)}>{children}</BaseComp>
+      )
+    }
+    return Component
+  }
+  return templateFunc
+}
+
 export const tw: Tw = new Proxy(() => ``, {
   // tw.div`text-black`
-  get(target, prop, receiver) {
-    const templateFunc = (...args: any[]) => {
-      if (typeof prop === 'symbol') throw new Error('Symbol is not supported')
+  get(_target, prop, _receiver) {
+    if (typeof prop === 'symbol') throw new Error('Symbol is not supported')
+    const BaseComp = prop as BaseCompString
 
-      const BaseComp = prop as BaseCompString
-
-      const Component = ({ className, children, ...props }: any) => {
-        // TODO: useMemo?
-        const classString = buildClassString({
-          args,
-          props,
-        })
-
-        return (
-          <BaseComp className={clsx(classString, className)}>
-            {children}
-          </BaseComp>
-        )
-      }
-
-      return Component
-    }
-
-    return templateFunc
+    return buildTemplateFunc({
+      BaseComp,
+    })
   },
-  apply(target, thisArg, args) {
-    // return args[0]
+  apply(_target, _thisArg, args) {
     const firstArg = args[0]
     const isArray = Array.isArray(firstArg)
     if (isArray) {
@@ -109,37 +109,14 @@ export const tw: Tw = new Proxy(() => ``, {
       return classString
     } else {
       // tw(SuperButton)`text-black`
-      const Comp = firstArg as FunctionComponent<{
+      const BaseComp = firstArg as FunctionComponent<{
         className: string
         children?: ReactNode
       }>
 
-      const templateFunc = (...args: unknown[]) => {
-        const StyledComp = ({
-          className,
-          children,
-          ...props
-        }: {
-          className: string
-          children?: ReactNode
-        }) => {
-          // TODO: useMemo?
-          // Build Class String from template string
-          const classString = buildClassString({
-            args,
-            props,
-          })
-
-          return (
-            <Comp className={clsx(classString, className)} {...props}>
-              {children}
-            </Comp>
-          )
-        }
-        return StyledComp
-      }
-
-      return templateFunc
+      return buildTemplateFunc({
+        BaseComp,
+      })
     }
   },
 }) as any
