@@ -34,41 +34,60 @@ type Tw = {
 } & EzFunc &
   CompStyleFunc
 
+const buildClassString = ({
+  templateStringArray,
+  templateExpressions,
+  props,
+}: {
+  templateStringArray: string[]
+  templateExpressions: unknown[]
+  props?: any
+}) => {
+  let classString = ''
+  for (let index = 0; index < templateStringArray.length; index++) {
+    const string = templateStringArray[index]
+    classString += string
+    const expression = templateExpressions[index]
+    if (expression) {
+      if (typeof expression === 'string') {
+        classString += ` ${expression}`
+      } else if (typeof expression === 'function') {
+        const expressionResult = expression(props)
+        if (typeof expressionResult === 'string') {
+          classString += ` ${expressionResult}`
+        } else {
+          throw new Error(
+            `Expression with type ${typeof expressionResult} is not supported`
+          )
+        }
+      } else {
+        throw new Error(
+          `Expression with type ${typeof expression} is not supported`
+        )
+      }
+    }
+  }
+  return classString
+}
+
 export const tw: Tw = new Proxy(() => ``, {
   // tw.div`text-black`
   get(target, prop, receiver) {
-    const templateFunc = (strings: string[], ...expressions: unknown[]) => {
+    const templateFunc = (
+      templateStringArray: string[],
+      ...templateExpressions: unknown[]
+    ) => {
       if (typeof prop === 'symbol') throw new Error('Symbol is not supported')
 
       const BaseComp = prop as 'div'
 
       const Component = ({ className, children, ...props }: any) => {
         // TODO: useMemo?
-        // Build Class String from template string
-        let classString = ''
-        for (let index = 0; index < strings.length; index++) {
-          const string = strings[index]
-          classString += string
-          const expression = expressions[index]
-          if (expression) {
-            if (typeof expression === 'string') {
-              classString += ` ${expression}`
-            } else if (typeof expression === 'function') {
-              const expressionResult = expression(props)
-              if (typeof expressionResult === 'string') {
-                classString += ` ${expressionResult}`
-              } else {
-                throw new Error(
-                  `Expression with type ${typeof expressionResult} is not supported`
-                )
-              }
-            } else {
-              throw new Error(
-                `Expression with type ${typeof expression} is not supported`
-              )
-            }
-          }
-        }
+        const classString = buildClassString({
+          templateStringArray,
+          templateExpressions,
+          props,
+        })
 
         return (
           <BaseComp className={[classString, className].join(' ')}>
@@ -88,55 +107,28 @@ export const tw: Tw = new Proxy(() => ``, {
     const isArray = Array.isArray(firstArg)
     if (isArray) {
       // tw`text-black`
-      const [strings, ...expressions] = args
-      let classString = ''
-      for (let index = 0; index < strings.length; index++) {
-        const string = strings[index]
-        classString += string
-        const expression = expressions[index]
-        if (expression) {
-          if (typeof expression === 'string') {
-            classString += ` ${expression}`
-          } else {
-            throw new Error(
-              `Expression with type ${typeof expression} is not supported`
-            )
-          }
-        }
-      }
+      const [templateStringArray, ...templateExpressions] = args
+      const classString = buildClassString({
+        templateStringArray,
+        templateExpressions,
+      })
       return classString
     } else {
       // tw(SuperButton)`text-black`
       const Comp = firstArg as FunctionComponent<{ className: string }>
 
-      const templateFunc = (strings: string[], ...expressions: unknown[]) => {
+      const templateFunc = (
+        templateStringArray: string[],
+        ...templateExpressions: unknown[]
+      ) => {
         const StyledComp = ({ className, ...props }: { className: string }) => {
           // TODO: useMemo?
           // Build Class String from template string
-          let classString = ''
-          for (let index = 0; index < strings.length; index++) {
-            const string = strings[index]
-            classString += string
-            const expression = expressions[index]
-            if (expression) {
-              if (typeof expression === 'string') {
-                classString += ` ${expression}`
-              } else if (typeof expression === 'function') {
-                const expressionResult = expression(props)
-                if (typeof expressionResult === 'string') {
-                  classString += ` ${expressionResult}`
-                } else {
-                  throw new Error(
-                    `Expression with type ${typeof expressionResult} is not supported`
-                  )
-                }
-              } else {
-                throw new Error(
-                  `Expression with type ${typeof expression} is not supported`
-                )
-              }
-            }
-          }
+          const classString = buildClassString({
+            templateStringArray,
+            templateExpressions,
+            props,
+          })
 
           return (
             <Comp className={[classString, className].join(' ')} {...props} />
