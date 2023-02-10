@@ -17,14 +17,14 @@ type EzFunc = (
   ...expressions: string[]
 ) => string
 
-type Tw<P> = {
+type Tw = {
   [T in BaseCompString]: <PropsType = {}>(
     strings: TemplateStringsArray,
     ...expressions: (string | TemplatePropsFunc<T, PropsType>)[]
   ) => GenericComp<T, PropsType>
 } & EzFunc
 
-export const tw: Tw<{}> = new Proxy(() => ``, {
+export const tw: Tw = new Proxy(() => ``, {
   // tw.div`text-black`
   get(target, prop, receiver) {
     const templateFunc = (strings: string[], ...expressions: unknown[]) => {
