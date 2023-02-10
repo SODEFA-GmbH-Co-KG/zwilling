@@ -1,3 +1,7 @@
+import { tw } from '@/lib/zwilling'
+
+const BlueBox = tw.div`h-20 w-64 bg-blue-500`
+
 export default function Page() {
   return (
     <>
@@ -8,6 +12,7 @@ export default function Page() {
           <div className="text-3xl font-bold">Hello World</div>
 
           <div className="h-20 w-64 bg-red-200">Red</div>
+          <BlueBox>Blue</BlueBox>
         </div>
       </div>
     </>
