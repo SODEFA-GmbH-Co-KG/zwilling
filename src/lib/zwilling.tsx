@@ -1,4 +1,21 @@
-export const tw = new Proxy(() => ``, {
+import { FunctionComponent } from 'react'
+
+type BaseCompString = keyof JSX.IntrinsicElements
+// type DivProps = JSX.IntrinsicElements['div']
+
+type GenericComp<T extends BaseCompString> = FunctionComponent<
+  JSX.IntrinsicElements[T]
+>
+
+type TemplateFunc<T extends BaseCompString> = (
+  strings: TemplateStringsArray
+) => GenericComp<T>
+
+type Tw = {
+  [T in BaseCompString]: TemplateFunc<T>
+}
+
+export const tw: Tw = new Proxy(() => ``, {
   // tw.div`text-black`
   get(target, prop, receiver) {
     const templateFunc = (strings: string[], ...expressions: any[]) => {
@@ -51,7 +68,7 @@ export const tw = new Proxy(() => ``, {
   //     return () => styled(firstArg)``
   //   }
   // },
-})
+}) as any
 
 // File A
 // const SmallTextStyles = `text-sm text-gray-500`
