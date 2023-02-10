@@ -25,6 +25,12 @@ const BlueBox = tw.a<{
 
 const redBoxClasses = tw`${squareClasses} bg-red-200 ${'text-white'}`
 
+const PurpleBox = tw.a<{ $active: boolean }>((props) => [
+  squareClasses,
+  props.$active ? 'bg-purple-300' : 'bg-purple-500',
+])
+const PurpleBox2 = tw.a([squareClasses, 'bg-purple-500', { 'rotate-45': true }])
+
 export default function Page() {
   return (
     <>
@@ -41,6 +47,12 @@ export default function Page() {
           </BlueBox>
           <SuperButton className={tw`bg-red-500`} isSuper={true} />
           <StyledSuperButton isSuper={true} />
+          <PurpleBox href="#" className="mb-20" $active={true}>
+            Purple1
+          </PurpleBox>
+          <PurpleBox2 href="#" className="mb-20">
+            Purple2
+          </PurpleBox2>
         </div>
       </div>
     </>

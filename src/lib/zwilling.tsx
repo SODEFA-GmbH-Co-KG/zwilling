@@ -30,10 +30,17 @@ type CompStyleFunc = <PropsType extends { className?: string }>(
 ) => FunctionComponent<PropsType>
 
 type Tw = {
-  [T in BaseCompString]: <PropsType = {}>(
+  [T in BaseCompString]: (<PropsType = {}>(
     strings: TemplateStringsArray,
     ...expressions: (ClsxInput | TemplatePropsFunc<T, PropsType>)[]
-  ) => GenericComp<T, PropsType>
+  ) => GenericComp<T, PropsType>) &
+    // (<PropsType = {}>() => GenericComp<T, PropsType>) &
+    // (<PropsType = {}>(classes: ClsxInput) => GenericComp<T, PropsType>) &
+    (<PropsType = {}>(
+      func:
+        | ClsxInput
+        | ((props: PropsType & JSX.IntrinsicElements[T]) => ClsxInput)
+    ) => GenericComp<T, PropsType>)
 } & EzFunc &
   CompStyleFunc
 
@@ -42,11 +49,17 @@ const buildClassString = ({
   templateExpressions,
   props,
 }: {
-  templateStringArray: string[]
+  templateStringArray: string[] | ((props: any) => ClsxInput)
   templateExpressions: unknown[]
   props?: any
 }) => {
-  const x = clsx()
+  if (typeof templateStringArray === 'function') {
+    return clsx(templateStringArray(props))
+  }
+
+  // tw.a(['bg-purple-500', { 'rotate-45': true }])
+  if (!templateExpressions.length) return clsx(templateStringArray)
+
   let classString = ''
   for (let index = 0; index < templateStringArray.length; index++) {
     const string = templateStringArray[index]
@@ -70,7 +83,7 @@ export const tw: Tw = new Proxy(() => ``, {
     ) => {
       if (typeof prop === 'symbol') throw new Error('Symbol is not supported')
 
-      const BaseComp = prop as 'div'
+      const BaseComp = prop as BaseCompString
 
       const Component = ({ className, children, ...props }: any) => {
         // TODO: useMemo?
