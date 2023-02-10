@@ -1,4 +1,7 @@
-import { FunctionComponent, ReactNode } from 'react'
+import clsx, { type ClassValue } from 'clsx'
+import { type FunctionComponent, type ReactNode } from 'react'
+
+type ClsxInput = ClassValue
 
 type BaseCompString = keyof JSX.IntrinsicElements
 // type DivProps = JSX.IntrinsicElements['div']
@@ -16,20 +19,20 @@ type TemplatePropsFuncEz<PropsType> = (props: PropsType) => string
 // tw`text-black`
 type EzFunc = (
   strings: TemplateStringsArray,
-  ...expressions: string[]
+  ...expressions: ClsxInput[]
 ) => string
 
 type CompStyleFunc = <PropsType extends { className?: string }>(
   comp: (props: PropsType) => ReactNode
 ) => (
   strings: TemplateStringsArray,
-  ...expressions: (string | TemplatePropsFuncEz<PropsType>)[]
+  ...expressions: (ClsxInput | TemplatePropsFuncEz<PropsType>)[]
 ) => FunctionComponent<PropsType>
 
 type Tw = {
   [T in BaseCompString]: <PropsType = {}>(
     strings: TemplateStringsArray,
-    ...expressions: (string | TemplatePropsFunc<T, PropsType>)[]
+    ...expressions: (ClsxInput | TemplatePropsFunc<T, PropsType>)[]
   ) => GenericComp<T, PropsType>
 } & EzFunc &
   CompStyleFunc
@@ -43,28 +46,16 @@ const buildClassString = ({
   templateExpressions: unknown[]
   props?: any
 }) => {
+  const x = clsx()
   let classString = ''
   for (let index = 0; index < templateStringArray.length; index++) {
     const string = templateStringArray[index]
     classString += string
     const expression = templateExpressions[index]
     if (expression) {
-      if (typeof expression === 'string') {
-        classString += ` ${expression}`
-      } else if (typeof expression === 'function') {
-        const expressionResult = expression(props)
-        if (typeof expressionResult === 'string') {
-          classString += ` ${expressionResult}`
-        } else {
-          throw new Error(
-            `Expression with type ${typeof expressionResult} is not supported`
-          )
-        }
-      } else {
-        throw new Error(
-          `Expression with type ${typeof expression} is not supported`
-        )
-      }
+      const expressionResult =
+        typeof expression === 'function' ? expression(props) : expression
+      classString += clsx(expressionResult)
     }
   }
   return classString
@@ -90,7 +81,7 @@ export const tw: Tw = new Proxy(() => ``, {
         })
 
         return (
-          <BaseComp className={[classString, className].join(' ')}>
+          <BaseComp className={clsx(classString, className)}>
             {children}
           </BaseComp>
         )
@@ -115,13 +106,23 @@ export const tw: Tw = new Proxy(() => ``, {
       return classString
     } else {
       // tw(SuperButton)`text-black`
-      const Comp = firstArg as FunctionComponent<{ className: string }>
+      const Comp = firstArg as FunctionComponent<{
+        className: string
+        children?: ReactNode
+      }>
 
       const templateFunc = (
         templateStringArray: string[],
         ...templateExpressions: unknown[]
       ) => {
-        const StyledComp = ({ className, ...props }: { className: string }) => {
+        const StyledComp = ({
+          className,
+          children,
+          ...props
+        }: {
+          className: string
+          children?: ReactNode
+        }) => {
           // TODO: useMemo?
           // Build Class String from template string
           const classString = buildClassString({
@@ -131,7 +132,9 @@ export const tw: Tw = new Proxy(() => ``, {
           })
 
           return (
-            <Comp className={[classString, className].join(' ')} {...props} />
+            <Comp className={clsx(classString, className)} {...props}>
+              {children}
+            </Comp>
           )
         }
         return StyledComp

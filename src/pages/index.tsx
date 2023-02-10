@@ -12,9 +12,9 @@ const SuperButton = ({
   )
 }
 const StyledSuperButton = tw(SuperButton)`bg-blue-500 ${(p) =>
-  p.isSuper ? 'text-white' : 'text-black'}`
+  p.isSuper && 'text-white'}`
 
-const squareClasses = tw`h-64 w-64 flex items-center justify-center text-2xl`
+const squareClasses = tw`h-64 w-64 flex items-center justify-center text-2xl}`
 
 const GreenBox = tw.a`${squareClasses} bg-green-500 ${'text-white'}`
 
@@ -40,7 +40,7 @@ export default function Page() {
             Blue
           </BlueBox>
           <SuperButton className={tw`bg-red-500`} isSuper={true} />
-          <StyledSuperButton isSuper={false} />
+          <StyledSuperButton isSuper={true} />
         </div>
       </div>
     </>
