@@ -14,6 +14,8 @@ const StyledSuperButton = tw(SuperButton)`bg-blue-500 ${(p) =>
 
 const squareClasses = tw`h-64 w-64 flex items-center justify-center text-2xl`
 
+const GreenBox = tw.a`${squareClasses} bg-green-500 ${'text-white'}`
+
 const BlueBox = tw.a<{
   $active: boolean
 }>`${squareClasses} bg-blue-500 ${'text-white'} ${(p) =>
@@ -31,6 +33,7 @@ export default function Page() {
           <div className="text-3xl font-bold">Hello World</div>
 
           <div className={redBoxClasses}>Red</div>
+          <GreenBox>Green</GreenBox>
           <BlueBox href="#" className="mb-20" $active={true}>
             Blue
           </BlueBox>
