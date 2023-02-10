@@ -30,6 +30,7 @@ const PurpleBox = tw.a<{ $active: boolean }>((props) => [
   props.$active ? 'bg-purple-300' : 'bg-purple-500',
 ])
 const PurpleBox2 = tw.a([squareClasses, 'bg-purple-500', { 'rotate-45': true }])
+const PurpleBox3 = tw.a()
 
 export default function Page() {
   return (
@@ -53,6 +54,9 @@ export default function Page() {
           <PurpleBox2 href="#" className="mb-20">
             Purple2
           </PurpleBox2>
+          <PurpleBox3 href="#" className="bg-purple-800 text-white mb-20">
+            Purple2
+          </PurpleBox3>
         </div>
       </div>
     </>

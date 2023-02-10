@@ -34,8 +34,7 @@ type Tw = {
     strings: TemplateStringsArray,
     ...expressions: (ClsxInput | TemplatePropsFunc<T, PropsType>)[]
   ) => GenericComp<T, PropsType>) &
-    // (<PropsType = {}>() => GenericComp<T, PropsType>) &
-    // (<PropsType = {}>(classes: ClsxInput) => GenericComp<T, PropsType>) &
+    (<PropsType = {}>() => GenericComp<T, PropsType>) &
     (<PropsType = {}>(
       func:
         | ClsxInput
@@ -47,11 +46,15 @@ type Tw = {
 const buildClassString = ({ args, props }: { args: any[]; props?: any }) => {
   const [firstArg, ...otherArgs] = args
 
+  // tw.a()
+  if (!firstArg) return ''
+
+  // tw.a(props => props.href && 'underline')
   if (typeof firstArg === 'function') {
     return clsx(firstArg(props))
   }
 
-  // tw.a(['bg-purple-500', { 'rotate-45': true }])
+  // tw.a('text-black')
   if (!otherArgs.length) return clsx(firstArg)
 
   const templateStringArray: string[] = firstArg
