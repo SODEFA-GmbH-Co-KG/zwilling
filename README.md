@@ -1,38 +1,48 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Zwilling
 
-## Getting Started
+Replacement for [twin.macro](https://github.com/ben-rogerson/twin.macro)'s `tw` function.
 
-First, run the development server:
+Internally uses [clsx](https://www.npmjs.com/package/clsx) for better DX (can be removed)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+## Examples
+
+```tsx
+const justAString = tw`text-red-500` // => 'text-red-500'
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```tsx
+const StyledLink = tw.a`text-red-500`
+return <StyledLink href="#typed">Whoop</StyledLink>
+```
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```tsx
+const darkMode = true
+const StyledLink = tw.a`text-red-500 ${darkMode ? 'text-white' : 'text-black'}`
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```tsx
+const darkMode = true
+const StyledLink = tw.a`text-red-500 ${[
+  // clsx style
+  darkMode && 'text-white',
+  { 'text-white': darkMode },
+  [[[[['text-2xl']]]]],
+]}`
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```tsx
+const StyledLink = tw.a<{ $active: boolean }>`text-red-500 ${(props) =>
+  props.$active && 'text-white'}`
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```tsx
+const SuperButton = (props) => (
+  <button className={props.className}>Super</button>
+)
+const StyledSuperButton = tw(SuperButton)`text-red-500`
+```
 
-## Learn More
+## Why?
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- No need for Styled Components or Emotion
+- No need for a babel plugin
