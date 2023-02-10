@@ -3,18 +3,13 @@ import { FunctionComponent } from 'react'
 type BaseCompString = keyof JSX.IntrinsicElements
 // type DivProps = JSX.IntrinsicElements['div']
 
-type GenericComp<T extends BaseCompString> = FunctionComponent<
-  JSX.IntrinsicElements[T]
+type GenericComp<T extends BaseCompString, PropsType> = FunctionComponent<
+  JSX.IntrinsicElements[T] & PropsType
 >
 
-type TemplatePropsFunc<T extends BaseCompString, PropsType extends {}> = (
+type TemplatePropsFunc<T extends BaseCompString, PropsType> = (
   props: PropsType & JSX.IntrinsicElements[T]
 ) => string
-
-type TemplateFunc<T extends BaseCompString, PropsType extends {}> = (
-  strings: TemplateStringsArray,
-  ...expressions: (string | TemplatePropsFunc<T, PropsType>)[]
-) => GenericComp<T>
 
 // tw`text-black`
 type EzFunc = (
@@ -22,12 +17,14 @@ type EzFunc = (
   ...expressions: string[]
 ) => string
 
-type Tw = {
-  [T in BaseCompString]: TemplateFunc<T, {}>
-  // Also make it a function:
+type Tw<P> = {
+  [T in BaseCompString]: <PropsType = {}>(
+    strings: TemplateStringsArray,
+    ...expressions: (string | TemplatePropsFunc<T, PropsType>)[]
+  ) => GenericComp<T, PropsType>
 } & EzFunc
 
-export const tw: Tw = new Proxy(() => ``, {
+export const tw: Tw<{}> = new Proxy(() => ``, {
   // tw.div`text-black`
   get(target, prop, receiver) {
     const templateFunc = (strings: string[], ...expressions: unknown[]) => {

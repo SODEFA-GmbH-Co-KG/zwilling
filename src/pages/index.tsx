@@ -2,8 +2,10 @@ import { tw } from '@/lib/zwilling'
 
 const squareClasses = tw`h-64 w-64 flex items-center justify-center text-2xl`
 
-const BlueBox = tw.a`${squareClasses} bg-blue-500 ${'text-white'} ${(p) =>
-  p.href ? `ring` : 'scale-50'}`
+const BlueBox = tw.a<{
+  $active: boolean
+}>`${squareClasses} bg-blue-500 ${'text-white'} ${(p) =>
+  p.$active ? `ring` : 'scale-50'}`
 
 const redBoxClasses = tw`${squareClasses} bg-red-200 ${'text-white'}`
 
@@ -17,7 +19,7 @@ export default function Page() {
           <div className="text-3xl font-bold">Hello World</div>
 
           <div className={redBoxClasses}>Red</div>
-          <BlueBox href="#" className="rotate-45">
+          <BlueBox href="#" className="rotate-45" $active={true}>
             Blue
           </BlueBox>
         </div>
