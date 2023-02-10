@@ -45,6 +45,21 @@ const SuperButton = (props) => (
 const StyledSuperButton = tw(SuperButton)`text-red-500`
 ```
 
+```tsx
+const StyledLink = tw.a(['bg-purple-500', { 'rotate-45': true }])
+```
+
+```tsx
+const StyledLink = tw.a<{ $active: boolean }>(
+  (p) => p.$active && 'bg-purple-500'
+)
+```
+
+```tsx
+const NotSoStyledLink = tw.a()
+return <NotSoStyledLink className={{ 'bg-purple-500': true }} />
+```
+
 ## Why?
 
 - No need for Styled Components or Emotion
