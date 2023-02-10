@@ -1,6 +1,10 @@
 import { tw } from '@/lib/zwilling'
 
-const BlueBox = tw.div`h-20 w-64 bg-blue-500 ${'text-white'}`
+const squareClasses = tw`h-64 w-64`
+
+const BlueBox = tw.a`${squareClasses} bg-blue-500 ${'text-white'}`
+
+const redBoxClasses = tw`${squareClasses} bg-red-200 ${'text-white'}`
 
 export default function Page() {
   return (
@@ -11,8 +15,10 @@ export default function Page() {
           <div className="text-2xl font-bold">Hello World</div>
           <div className="text-3xl font-bold">Hello World</div>
 
-          <div className="h-20 w-64 bg-red-200">Red</div>
-          <BlueBox>Blue</BlueBox>
+          <div className={redBoxClasses}>Red</div>
+          <BlueBox href="#" className="rotate-45">
+            Blue
+          </BlueBox>
         </div>
       </div>
     </>

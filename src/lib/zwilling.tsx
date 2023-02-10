@@ -12,9 +12,16 @@ type TemplateFunc<T extends BaseCompString> = (
   ...expressions: string[]
 ) => GenericComp<T>
 
+// tw`text-black`
+type EzFunc = (
+  strings: TemplateStringsArray,
+  ...expressions: string[]
+) => string
+
 type Tw = {
   [T in BaseCompString]: TemplateFunc<T>
-}
+  // Also make it a function:
+} & EzFunc
 
 export const tw: Tw = new Proxy(() => ``, {
   // tw.div`text-black`
@@ -54,18 +61,35 @@ export const tw: Tw = new Proxy(() => ``, {
 
     return templateFunc
   },
-  // apply(target, thisArg, args) {
-  //   // return args[0]
-  //   const firstArg = args[0]
-  //   const isArray = Array.isArray(firstArg)
-  //   if (isArray) {
-  //     // tw`text-black`
-  //     return ``
-  //   } else {
-  //     // tw(SuperButton)`text-black` -->
-  //     return () => styled(firstArg)``
-  //   }
-  // },
+  apply(target, thisArg, args) {
+    // return args[0]
+    const firstArg = args[0]
+    const isArray = Array.isArray(firstArg)
+    if (isArray) {
+      // tw`text-black`
+      const [strings, ...expressions] = args
+      let classString = ''
+      for (let index = 0; index < strings.length; index++) {
+        const string = strings[index]
+        classString += string
+        const expression = expressions[index]
+        if (expression) {
+          if (typeof expression === 'string') {
+            classString += ` ${expression}`
+          } else {
+            throw new Error(
+              `Expression with type ${typeof expression} is not supported`
+            )
+          }
+        }
+      }
+      return classString
+    } else {
+      // tw(SuperButton)`text-black` -->
+      throw new Error('Not supported')
+      // return () => styled(firstArg)``
+    }
+  },
 }) as any
 
 // File A
