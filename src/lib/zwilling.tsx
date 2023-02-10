@@ -19,7 +19,7 @@ type EzFunc = (
   ...expressions: string[]
 ) => string
 
-type CompStyleFunc = <PropsType>(
+type CompStyleFunc = <PropsType extends { className?: string }>(
   comp: (props: PropsType) => ReactNode
 ) => (
   strings: TemplateStringsArray,
