@@ -1,5 +1,19 @@
 import { tw } from '@/lib/zwilling'
 
+const SuperButton = ({
+  className,
+  isSuper,
+}: {
+  className: string
+  isSuper: boolean
+}) => {
+  return (
+    <button className={className}>{isSuper ? 'Super' : 'Not so super'}</button>
+  )
+}
+
+// const StyledSuperButton = tw(SuperButton)`bg-blue-500`
+
 const squareClasses = tw`h-64 w-64 flex items-center justify-center text-2xl`
 
 const BlueBox = tw.a<{
@@ -19,9 +33,10 @@ export default function Page() {
           <div className="text-3xl font-bold">Hello World</div>
 
           <div className={redBoxClasses}>Red</div>
-          <BlueBox href="#" className="rotate-45" $active={true}>
+          <BlueBox href="#" className="mb-20" $active={true}>
             Blue
           </BlueBox>
+          <SuperButton className={tw`bg-red-500`} isSuper={true} />
         </div>
       </div>
     </>
