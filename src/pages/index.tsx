@@ -1,6 +1,6 @@
 import { tw } from '@/lib/zwilling'
 
-const BlueBox = tw.div`h-20 w-64 bg-blue-500`
+const BlueBox = tw.div`h-20 w-64 bg-blue-500 ${'text-white'}`
 
 export default function Page() {
   return (

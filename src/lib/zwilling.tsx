@@ -8,7 +8,8 @@ type GenericComp<T extends BaseCompString> = FunctionComponent<
 >
 
 type TemplateFunc<T extends BaseCompString> = (
-  strings: TemplateStringsArray
+  strings: TemplateStringsArray,
+  ...expressions: string[]
 ) => GenericComp<T>
 
 type Tw = {
@@ -18,15 +19,10 @@ type Tw = {
 export const tw: Tw = new Proxy(() => ``, {
   // tw.div`text-black`
   get(target, prop, receiver) {
-    const templateFunc = (strings: string[], ...expressions: any[]) => {
-      const classes = prop
-
+    const templateFunc = (strings: string[], ...expressions: unknown[]) => {
       if (typeof prop === 'symbol') throw new Error('Symbol is not supported')
 
-      // TODO: replace div by prop
-      // const BaseComp = 'div'
-      const BaseComp = prop as 'div'
-
+      // Build Class String from template string
       let classString = ''
       for (let index = 0; index < strings.length; index++) {
         const string = strings[index]
@@ -42,6 +38,8 @@ export const tw: Tw = new Proxy(() => ``, {
           }
         }
       }
+
+      const BaseComp = prop as 'div'
 
       const Component = ({ className, children, ...props }: any) => {
         return (
