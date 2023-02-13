@@ -12,6 +12,15 @@ Internally uses [clsx](https://www.npmjs.com/package/clsx) for better DX (can be
 - No need for Styled Components or Emotion
 - No need for a babel plugin
 
+## Limitations
+
+- Only implements `tw` from `twin.macro`
+- No support for `css` from `twin.macro`
+- No support for `styled` from `twin.macro`
+- No support for `theme` from `twin.macro`
+- In general: No support for CSS!
+- No support for custom twin.macro syntax like `md:(h-4 w-4)`
+
 ## Examples
 
 ```tsx
