@@ -73,3 +73,12 @@ const StyledLink = tw.a<{ $active: boolean }>(
 const NotSoStyledLink = tw.a()
 return <NotSoStyledLink className={{ 'bg-purple-500': true }} />
 ```
+
+```tsx
+// Combine with styled-components if you are a madman (or have legacy code):
+const DoubleStyled = styled(
+  tw.a`bg-purple-500` // tailwind here
+)`
+  text-decoration: underline; /* CSS here */
+`
+```
