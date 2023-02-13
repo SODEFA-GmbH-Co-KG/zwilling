@@ -1,4 +1,5 @@
 import { tw } from '@/lib/zwilling'
+import styled from 'styled-components'
 
 const SuperButton = ({
   className,
@@ -31,6 +32,9 @@ const PurpleBox = tw.a<{ $active: boolean }>((props) => [
 ])
 const PurpleBox2 = tw.a([squareClasses, 'bg-purple-500', { 'rotate-45': true }])
 const PurpleBox3 = tw.a()
+const PurpleBox4 = styled(PurpleBox2)`
+  text-decoration: underline;
+`
 
 export default function Page() {
   return (
@@ -60,6 +64,7 @@ export default function Page() {
           >
             Purple2
           </PurpleBox3>
+          <PurpleBox4>Purple 4</PurpleBox4>
         </div>
       </div>
     </>
