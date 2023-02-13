@@ -1,6 +1,7 @@
 # Zwilling
 
 Replacement for [twin.macro](https://github.com/ben-rogerson/twin.macro)'s `tw` function.
+Just use `zw` instead of `tw` everywhere.
 
 - Source-Code: [zwilling.tsx](/src/lib/zwilling.tsx)
 - Example-Page: [pages/index.tsx](/src/pages/index.tsx)
@@ -24,22 +25,22 @@ Internally uses [clsx](https://www.npmjs.com/package/clsx) for better DX (can be
 ## Examples
 
 ```tsx
-const justAString = tw`text-red-500` // => 'text-red-500'
+const justAString = zw`text-red-500` // => 'text-red-500'
 ```
 
 ```tsx
-const StyledLink = tw.a`text-red-500`
+const StyledLink = zw.a`text-red-500`
 return <StyledLink href="#typed">Whoop</StyledLink>
 ```
 
 ```tsx
 const darkMode = true
-const StyledLink = tw.a`text-red-500 ${darkMode ? 'text-white' : 'text-black'}`
+const StyledLink = zw.a`text-red-500 ${darkMode ? 'text-white' : 'text-black'}`
 ```
 
 ```tsx
 const darkMode = true
-const StyledLink = tw.a`text-red-500 ${[
+const StyledLink = zw.a`text-red-500 ${[
   // clsx style
   darkMode && 'text-white',
   { 'text-white': darkMode },
@@ -48,7 +49,7 @@ const StyledLink = tw.a`text-red-500 ${[
 ```
 
 ```tsx
-const StyledLink = tw.a<{ $active: boolean }>`text-red-500 ${(props) =>
+const StyledLink = zw.a<{ $active: boolean }>`text-red-500 ${(props) =>
   props.$active && 'text-white'}`
 ```
 
@@ -56,28 +57,28 @@ const StyledLink = tw.a<{ $active: boolean }>`text-red-500 ${(props) =>
 const SuperButton = (props) => (
   <button className={props.className}>Super</button>
 )
-const StyledSuperButton = tw(SuperButton)`text-red-500`
+const StyledSuperButton = zw(SuperButton)`text-red-500`
 ```
 
 ```tsx
-const StyledLink = tw.a(['bg-purple-500', { 'rotate-45': true }])
+const StyledLink = zw.a(['bg-purple-500', { 'rotate-45': true }])
 ```
 
 ```tsx
-const StyledLink = tw.a<{ $active: boolean }>(
+const StyledLink = zw.a<{ $active: boolean }>(
   (p) => p.$active && 'bg-purple-500'
 )
 ```
 
 ```tsx
-const NotSoStyledLink = tw.a()
+const NotSoStyledLink = zw.a()
 return <NotSoStyledLink className={{ 'bg-purple-500': true }} />
 ```
 
 ```tsx
 // Combine with styled-components if you are a madman (or have legacy code):
 const DoubleStyled = styled(
-  tw.a`bg-purple-500` // tailwind here
+  zw.a`bg-purple-500` // tailwind here
 )`
   text-decoration: underline; /* CSS here */
 `

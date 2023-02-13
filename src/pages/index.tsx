@@ -1,4 +1,4 @@
-import { tw } from '@/lib/zwilling'
+import { zw } from '@/lib/zwilling'
 import styled from 'styled-components'
 
 const SuperButton = ({
@@ -12,31 +12,31 @@ const SuperButton = ({
     <button className={className}>{isSuper ? 'Super' : 'Not so super'}</button>
   )
 }
-const StyledSuperButton = tw(SuperButton)`bg-blue-500 ${(p) =>
+const StyledSuperButton = zw(SuperButton)`bg-blue-500 ${(p) =>
   p.isSuper && 'text-white'}`
 
-const squareClasses = tw`h-64 w-64 flex items-center justify-center text-2xl}`
+const squareClasses = zw`h-64 w-64 flex items-center justify-center text-2xl}`
 
-const GreenBox = tw.a`${squareClasses} bg-green-500 ${'text-white'}`
+const GreenBox = zw.a`${squareClasses} bg-green-500 ${'text-white'}`
 
-const BlueBox = tw.a<{
+const BlueBox = zw.a<{
   $active: boolean
 }>`${squareClasses} bg-blue-500 ${'text-white'} ${(p) =>
   p.$active ? `ring` : 'scale-50'}`
 
-const redBoxClasses = tw`${squareClasses} bg-red-200 ${'text-white'}`
+const redBoxClasses = zw`${squareClasses} bg-red-200 ${'text-white'}`
 
-const PurpleBox = tw.a<{ $active: boolean }>((props) => [
+const PurpleBox = zw.a<{ $active: boolean }>((props) => [
   squareClasses,
   props.$active ? 'bg-purple-300' : 'bg-purple-500',
 ])
-const PurpleBox2 = tw.a([squareClasses, 'bg-purple-500', { 'rotate-45': true }])
-const PurpleBox3 = tw.a()
+const PurpleBox2 = zw.a([squareClasses, 'bg-purple-500', { 'rotate-45': true }])
+const PurpleBox3 = zw.a()
 const PurpleBox4 = styled(PurpleBox2)`
   text-decoration: underline;
 `
 const PurpleBox5 = styled(
-  tw.a([squareClasses, 'bg-purple-500', { 'rotate-45': true }])
+  zw.a([squareClasses, 'bg-purple-500', { 'rotate-45': true }])
 )`
   text-decoration: underline;
 `
@@ -55,7 +55,7 @@ export default function Page() {
           <BlueBox href="#" className="mb-20" $active={true}>
             Blue
           </BlueBox>
-          <SuperButton className={tw`bg-red-500`} isSuper={true} />
+          <SuperButton className={zw`bg-red-500`} isSuper={true} />
           <StyledSuperButton isSuper={true} />
           <PurpleBox href="#" className="mb-20" $active={true}>
             Purple1

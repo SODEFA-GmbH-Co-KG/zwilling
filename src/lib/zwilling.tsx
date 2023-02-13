@@ -18,7 +18,7 @@ type TemplatePropsFunc<T extends BaseCompString, PropsType> = (
 
 type TemplatePropsFuncEz<PropsType> = (props: PropsType) => string
 
-// tw`text-black`
+// zw`text-black`
 type EzFunc = (
   strings: TemplateStringsArray,
   ...expressions: ClsxInput[]
@@ -31,7 +31,7 @@ type CompStyleFunc = <PropsType extends { className?: string }>(
   ...expressions: (ClsxInput | TemplatePropsFuncEz<PropsType>)[]
 ) => FunctionComponent<PropsType>
 
-type Tw = {
+type Zwilling = {
   [T in BaseCompString]: (<PropsType = {}>(
     strings: TemplateStringsArray,
     ...expressions: (ClsxInput | TemplatePropsFunc<T, PropsType>)[]
@@ -48,15 +48,15 @@ type Tw = {
 const buildClassString = ({ args, props }: { args: any[]; props?: any }) => {
   const [firstArg, ...otherArgs] = args
 
-  // tw.a()
+  // zw.a()
   if (!firstArg) return ''
 
-  // tw.a(props => props.href && 'underline')
+  // zw.a(props => props.href && 'underline')
   if (typeof firstArg === 'function') {
     return clsx(firstArg(props))
   }
 
-  // tw.a('text-black')
+  // zw.a('text-black')
   if (!otherArgs.length) return clsx(firstArg)
 
   const templateStringArray: string[] = firstArg
@@ -93,8 +93,8 @@ const buildTemplateFunc = ({ BaseComp }: { BaseComp: any }) => {
   return templateFunc
 }
 
-export const tw: Tw = new Proxy(() => ``, {
-  // tw.div`text-black`
+export const zw: Zwilling = new Proxy(() => ``, {
+  // zw.div`text-black`
   get(_target, prop, _receiver) {
     if (typeof prop === 'symbol') throw new Error('Symbol is not supported')
     const BaseComp = prop as BaseCompString
@@ -107,13 +107,13 @@ export const tw: Tw = new Proxy(() => ``, {
     const firstArg = args[0]
     const isArray = Array.isArray(firstArg)
     if (isArray) {
-      // tw`text-black`
+      // zw`text-black`
       const classString = buildClassString({
         args,
       })
       return classString
     } else {
-      // tw(SuperButton)`text-black`
+      // zw(SuperButton)`text-black`
       const BaseComp = firstArg as FunctionComponent<{
         className: string
         children?: ReactNode
