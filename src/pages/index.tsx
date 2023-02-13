@@ -69,7 +69,7 @@ export default function Page() {
           >
             Purple2
           </PurpleBox3>
-          <PurpleBox4>Purple 4</PurpleBox4>
+          <PurpleBox4>Purple 44</PurpleBox4>
           <PurpleBox5>Purple 5</PurpleBox5>
         </div>
       </div>
