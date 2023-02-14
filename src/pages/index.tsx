@@ -1,5 +1,16 @@
 import { zw } from '@/lib/zwilling'
+import { cva } from 'class-variance-authority'
 import styled from 'styled-components'
+
+const buttonVariants = cva('', {
+  variants: {
+    color: {
+      red: 'bg-red-500',
+      green: 'bg-green-500',
+    },
+  },
+})
+const VariantButton = zw.a(buttonVariants)
 
 const SuperButton = ({
   className,
@@ -71,6 +82,9 @@ export default function Page() {
           </PurpleBox3>
           <PurpleBox4>Purple 44</PurpleBox4>
           <PurpleBox5>Purple 5</PurpleBox5>
+          <VariantButton color="red" className="mt-10">
+            Variant
+          </VariantButton>
         </div>
       </div>
     </>

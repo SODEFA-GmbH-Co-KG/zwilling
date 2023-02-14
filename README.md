@@ -83,3 +83,17 @@ const DoubleStyled = styled(
   text-decoration: underline; /* CSS here */
 `
 ```
+
+```tsx
+import { cva } from 'class-variance-authority'
+
+const buttonVariants = cva('', {
+  variants: {
+    color: {
+      red: 'bg-red-500',
+      green: 'bg-green-500',
+    },
+  },
+})
+const VariantButton = zw.a(buttonVariants)
+```
