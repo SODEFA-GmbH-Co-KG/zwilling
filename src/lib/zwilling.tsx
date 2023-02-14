@@ -1,10 +1,10 @@
 import { type FunctionComponent, type ReactNode } from 'react'
 
 export function Zwilling<ClassNamesInput = string>({
-  classNameJoiner,
+  classNameJoiner = (classNames: ClassNamesInput[]) => classNames.join(' '),
 }: {
-  classNameJoiner: (classNames: ClassNamesInput[]) => string
-}) {
+  classNameJoiner?: (classNames: ClassNamesInput[]) => string
+} = {}) {
   type BaseCompString = keyof JSX.IntrinsicElements
   // type DivProps = JSX.IntrinsicElements['div']
 
