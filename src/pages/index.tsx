@@ -1,4 +1,4 @@
-import { zw } from '@/lib/zwilling'
+import { zw } from '@/lib/zw'
 import { cva } from 'class-variance-authority'
 import styled from 'styled-components'
 
