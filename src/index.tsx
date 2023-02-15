@@ -1,4 +1,4 @@
-import { type FunctionComponent, type ReactNode } from 'react'
+import { forwardRef, type FunctionComponent, type ReactNode } from 'react'
 
 export function Zwilling<ClassNamesInput = string>({
   classNameJoiner = (classNames: ClassNamesInput[]) => classNames.join(' '),
@@ -79,19 +79,33 @@ export function Zwilling<ClassNamesInput = string>({
 
   const buildTemplateFunc = ({ BaseComp }: { BaseComp: any }) => {
     const templateFunc = (...args: any[]) => {
-      const Component = ({ className, children, ...props }: any) => {
-        // TODO: useMemo?
-        const classString = buildClassString({
-          args,
-          props,
-        })
+      const Component = forwardRef(
+        ({ className, children, ...props }: any, ref) => {
+          // TODO: useMemo?
+          const classString = buildClassString({
+            args,
+            props,
+          })
 
-        return (
-          <BaseComp className={classNameJoiner([classString, className])}>
-            {children}
-          </BaseComp>
-        )
-      }
+          const propsToPass = {}
+          for (const key in props) {
+            if (!key.startsWith('$') && key !== 'ref') {
+              propsToPass[key] = props[key]
+            }
+          }
+
+          return (
+            <BaseComp
+              className={classNameJoiner([classString, className])}
+              ref={ref}
+              {...propsToPass}
+            >
+              {children}
+            </BaseComp>
+          )
+        }
+      )
+      Component.displayName = `ZwillingComponent`
       return Component
     }
     return templateFunc

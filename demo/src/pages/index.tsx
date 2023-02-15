@@ -1,5 +1,6 @@
 import { zw } from '@/lib/zw'
 import { cva } from 'class-variance-authority'
+import { useRef } from 'react'
 import styled from 'styled-components'
 
 const buttonVariants = cva('', {
@@ -53,16 +54,19 @@ const PurpleBox5 = styled(
 `
 
 export default function Page() {
+  const ref = useRef(null as any)
+
   return (
     <>
       <div className="container mx-auto p-4">
         <div className="flex flex-col items-center justify-center">
-          <div className="text-4xl font-bold">Hello World</div>
-          <div className="text-2xl font-bold">Hello World</div>
-          <div className="text-3xl font-bold">Hello World</div>
-
           <div className={redBoxClasses}>Red</div>
-          <GreenBox>Green</GreenBox>
+          <GreenBox
+            ref={ref}
+            onClick={() => console.log({ refCurrent: ref.current })}
+          >
+            Green
+          </GreenBox>
           <BlueBox href="#" className="mb-20" $active={true}>
             Blue
           </BlueBox>
