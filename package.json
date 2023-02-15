@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "tsup src/lib/zwilling.tsx --format esm,cjs --dts --external react",
+    "build": "cd src/packages/zwilling && tsup ./index.tsx --format esm,cjs --dts --external react",
     "start": "next start",
     "lint": "next lint"
   },
