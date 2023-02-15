@@ -4,29 +4,29 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "tsup src/lib/zwilling.tsx --format esm,cjs --dts --external react",
+    "build2": "tsc src/lib/zwilling.tsx --jsx react",
     "start": "next start",
     "lint": "next lint"
   },
-  "dependencies": {
+  "devDependencies": {
     "@next/font": "13.1.6",
     "@types/node": "18.13.0",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
+    "@types/styled-components": "^5.1.26",
+    "autoprefixer": "^10.4.13",
     "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
     "next": "13.1.6",
+    "postcss": "^8.4.21",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "styled-components": "^5.3.6",
+    "tailwindcss": "^3.2.6",
+    "tsup": "^6.6.3",
     "typescript": "4.9.5"
-  },
-  "devDependencies": {
-    "@types/styled-components": "^5.1.26",
-    "autoprefixer": "^10.4.13",
-    "postcss": "^8.4.21",
-    "tailwindcss": "^3.2.6"
   }
 }
