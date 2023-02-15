@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "tsup src/lib/zwilling.tsx --format esm,cjs --dts --external react",
-    "build2": "tsc src/lib/zwilling.tsx --jsx react",
     "start": "next start",
     "lint": "next lint"
   },
