@@ -1,7 +1,6 @@
 {
   "name": "zwilling",
   "version": "0.1.0",
-  "private": true,
   "main": "./src/packages/zwilling/dist/index.js",
   "module": "./src/packages/zwilling/dist/index.mjs",
   "types": "./src/packages/zwilling/dist/index.d.ts",
