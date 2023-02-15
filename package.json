@@ -1,9 +1,9 @@
 {
   "name": "zwilling",
-  "version": "0.1.5",
-  "main": "./src/packages/zwilling/dist/index.js",
-  "module": "./src/packages/zwilling/dist/index.mjs",
-  "types": "./src/packages/zwilling/dist/index.d.ts",
+  "version": "0.1.6",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "sideEffects": false,
   "homepage": "https://github.com/SODEFA-GmbH-Co-KG/zwilling",
   "repository": "https://github.com/SODEFA-GmbH-Co-KG/zwilling",
@@ -14,8 +14,8 @@
     "url": "https://rechenberger.io"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "cd src/packages/zwilling && tsup ./index.tsx --format esm,cjs --dts --external react",
+    "demo": "cd demo && next dev",
+    "build": "tsup ./src/index.tsx --format esm,cjs --dts --external react",
     "p": "pnpm run build && npm publish"
   },
   "devDependencies": {
