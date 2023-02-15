@@ -1,12 +1,49 @@
 # Zwilling
 
+[![npm version](https://badge.fury.io/js/zwilling.svg)](https://badge.fury.io/js/zwilling)
+
 Replacement for [twin.macro](https://github.com/ben-rogerson/twin.macro)'s `tw` function.
 Just use `zw` instead of `tw` everywhere.
 
-- Source-Code: [zwilling.tsx](/src/lib/zwilling.tsx)
+- Source-Code: [zwilling/index.tsx](/src/packages/zwilling/index.tsx)
 - Example-Page: [pages/index.tsx](/src/pages/index.tsx)
 
-Internally uses [clsx](https://www.npmjs.com/package/clsx) for better DX (can be removed)
+## Installation
+
+```bash
+npm i zwilling
+# or
+yarn add zwilling
+# or
+pnpm add zwilling
+```
+
+vanilla:
+
+```tsx
+// lib/zw.ts
+import { Zwilling } from '../packages/zwilling'
+
+export const zw = Zwilling()
+
+// pages/demo.tsx
+const StyledLink = zw.a`underline`
+```
+
+with [clsx](https://www.npmjs.com/package/clsx) (recommended):
+
+```tsx
+// lib/zw.ts
+import clsx, { ClassValue } from 'clsx'
+import { Zwilling } from '../packages/zwilling'
+
+export const zw = Zwilling<ClassValue>({
+  classNameJoiner: clsx,
+})
+
+// pages/demo.tsx
+const StyledLink = zw.a(['underline']) // clsx syntax allowed
+```
 
 ## Why?
 
