@@ -5,10 +5,8 @@
 Replacement for [twin.macro](https://github.com/ben-rogerson/twin.macro)'s `tw` function.
 Just use `zw` instead of `tw` everywhere.
 
-- Source-Code: [zwilling.tsx](/src/lib/zwilling.tsx)
+- Source-Code: [zwilling/index.tsx](/src/packages/zwilling/index.tsx)
 - Example-Page: [pages/index.tsx](/src/pages/index.tsx)
-
-Internally uses [clsx](https://www.npmjs.com/package/clsx) for better DX (can be removed)
 
 ## Installation
 
@@ -32,7 +30,7 @@ export const zw = Zwilling()
 const StyledLink = zw.a`underline`
 ```
 
-with clsx:
+with [clsx](https://www.npmjs.com/package/clsx) (recommended):
 
 ```tsx
 // lib/zw.ts
@@ -44,7 +42,7 @@ export const zw = Zwilling<ClassValue>({
 })
 
 // pages/demo.tsx
-const StyledLink = zw.a((href) => ({ underline: !!href }))
+const StyledLink = zw.a(['underline']) // clsx syntax allowed
 ```
 
 ## Why?
