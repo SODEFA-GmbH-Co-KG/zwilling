@@ -22,7 +22,7 @@ vanilla:
 
 ```tsx
 // lib/zw.ts
-import { Zwilling } from '../packages/zwilling'
+import { Zwilling } from 'zwilling'
 
 export const zw = Zwilling()
 
@@ -35,7 +35,7 @@ with [clsx](https://www.npmjs.com/package/clsx) (recommended):
 ```tsx
 // lib/zw.ts
 import clsx, { ClassValue } from 'clsx'
-import { Zwilling } from '../packages/zwilling'
+import { Zwilling } from 'zwilling'
 
 export const zw = Zwilling<ClassValue>({
   classNameJoiner: clsx,
