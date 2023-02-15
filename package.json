@@ -14,7 +14,7 @@
     "url": "https://rechenberger.io"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "cd demo && next dev",
     "build": "cd src/packages/zwilling && tsup ./index.tsx --format esm,cjs --dts --external react",
     "p": "pnpm run build && npm publish"
   },
