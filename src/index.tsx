@@ -2,8 +2,10 @@ import { forwardRef, type FunctionComponent, type ReactNode } from 'react'
 
 export function Zwilling<ClassNamesInput = string>({
   classNameJoiner = (classNames: ClassNamesInput[]) => classNames.join(' '),
+  passProp = (key: string) => !key.startsWith('$'),
 }: {
   classNameJoiner?: (classNames: ClassNamesInput[]) => string
+  passProp?: (key: string) => boolean
 } = {}) {
   type BaseCompString = keyof JSX.IntrinsicElements
   // type DivProps = JSX.IntrinsicElements['div']
@@ -89,7 +91,7 @@ export function Zwilling<ClassNamesInput = string>({
 
           const propsToPass = {}
           for (const key in props) {
-            if (!key.startsWith('$') && key !== 'ref') {
+            if (passProp(key) && key !== 'ref') {
               propsToPass[key] = props[key]
             }
           }

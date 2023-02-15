@@ -45,6 +45,25 @@ export const zw = Zwilling<ClassValue>({
 const StyledLink = zw.a(['underline']) // clsx syntax allowed
 ```
 
+define which props to pass:
+
+```tsx
+// lib/zw.ts
+import { Zwilling } from 'zwilling'
+
+export const zw = Zwilling({
+  passProp: (key) => !key.startsWith('$') // actually the default
+})
+
+// pages/demo.tsx
+const StyledLink = zw.a<{ $active: boolean }>((props) =>
+  props.$active ? 'underline' : 'no-underline'
+)
+
+<StyledLink $active={true}>Whoop</StyledLink>
+// $active will not be passed to the DOM-Anchor-Element
+```
+
 ## Why?
 
 - No need for Styled Components or Emotion
