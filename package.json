@@ -1,15 +1,22 @@
 {
   "name": "zwilling",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "main": "./src/packages/zwilling/dist/index.js",
   "module": "./src/packages/zwilling/dist/index.mjs",
   "types": "./src/packages/zwilling/dist/index.d.ts",
   "sideEffects": false,
+  "homepage": "https://github.com/SODEFA-GmbH-Co-KG/zwilling",
+  "repository": "https://github.com/SODEFA-GmbH-Co-KG/zwilling",
+  "license": "MIT",
+  "author": {
+    "name": "Tristan Rechenberger",
+    "email": "rechenberger@me.com",
+    "url": "https://rechenberger.io"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "cd src/packages/zwilling && tsup ./index.tsx --format esm,cjs --dts --external react",
-    "start": "next start",
-    "lint": "next lint"
+    "p": "pnpm run build && npm publish"
   },
   "devDependencies": {
     "@next/font": "13.1.6",
