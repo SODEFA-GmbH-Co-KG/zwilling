@@ -1,12 +1,9 @@
 {
   "name": "zwilling",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "main": "./src/packages/zwilling/dist/index.js",
   "module": "./src/packages/zwilling/dist/index.mjs",
   "types": "./src/packages/zwilling/dist/index.d.ts",
-  "exports": {
-    ".": "./src/packages/zwilling/dist"
-  },
   "sideEffects": false,
   "scripts": {
     "dev": "next dev",
