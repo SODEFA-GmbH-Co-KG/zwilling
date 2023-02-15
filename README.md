@@ -8,6 +8,43 @@ Just use `zw` instead of `tw` everywhere.
 
 Internally uses [clsx](https://www.npmjs.com/package/clsx) for better DX (can be removed)
 
+## Installation
+
+```bash
+npm i zwilling
+# or
+yarn add zwilling
+# or
+pnpm add zwilling
+```
+
+vanilla:
+
+```tsx
+// lib/zw.ts
+import { Zwilling } from '../packages/zwilling'
+
+export const zw = Zwilling()
+
+// pages/demo.tsx
+const StyledLink = zw.a`underline`
+```
+
+with clsx:
+
+```tsx
+// lib/zw.ts
+import clsx, { ClassValue } from 'clsx'
+import { Zwilling } from '../packages/zwilling'
+
+export const zw = Zwilling<ClassValue>({
+  classNameJoiner: clsx,
+})
+
+// pages/demo.tsx
+const StyledLink = zw.a((href) => ({ underline: !!href }))
+```
+
 ## Why?
 
 - No need for Styled Components or Emotion
