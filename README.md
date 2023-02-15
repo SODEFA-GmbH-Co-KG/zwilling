@@ -134,3 +134,18 @@ const buttonVariants = cva('', {
 })
 const VariantButton = zw.a(buttonVariants)
 ```
+
+## Development
+
+```bash
+# Install:
+pnpm i
+
+# Run once:
+pnpm build
+pnpm demo
+
+# After every change to src:
+pnpm build
+pnpm demo
+```
