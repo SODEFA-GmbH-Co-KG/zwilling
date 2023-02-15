@@ -1,5 +1,7 @@
 # Zwilling
 
+[![npm version](https://badge.fury.io/js/zwilling.svg)](https://badge.fury.io/js/zwilling)
+
 Replacement for [twin.macro](https://github.com/ben-rogerson/twin.macro)'s `tw` function.
 Just use `zw` instead of `tw` everywhere.
 
