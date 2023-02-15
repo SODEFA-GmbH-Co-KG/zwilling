@@ -1,9 +1,9 @@
 {
   "name": "zwilling",
   "version": "0.1.5",
-  "main": "./src/packages/zwilling/dist/index.js",
-  "module": "./src/packages/zwilling/dist/index.mjs",
-  "types": "./src/packages/zwilling/dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "sideEffects": false,
   "homepage": "https://github.com/SODEFA-GmbH-Co-KG/zwilling",
   "repository": "https://github.com/SODEFA-GmbH-Co-KG/zwilling",
@@ -15,7 +15,7 @@
   },
   "scripts": {
     "dev": "cd demo && next dev",
-    "build": "cd src/packages/zwilling && tsup ./index.tsx --format esm,cjs --dts --external react",
+    "build": "tsup ./src/index.tsx --format esm,cjs --dts --external react",
     "p": "pnpm run build && npm publish"
   },
   "devDependencies": {
